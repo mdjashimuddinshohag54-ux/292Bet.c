@@ -80,4 +80,337 @@ body {
     background: #ffc400;
     color: #111111;
     font-weight: bold;
-    cursor
+    cursor: pointer;
+}
+
+.switch {
+    text-align: center;
+    margin-top: 15px;
+    color: #ffc400;
+    cursor: pointer;
+}
+
+.home {
+    display: none;
+}
+
+.banner {
+    background: #ffc400;
+    color: #111111;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.deposit {
+    flex: 1;
+    background: #168a45;
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.withdraw {
+    flex: 1;
+    background: #c62828;
+    color: white;
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.game {
+    background: #171717;
+    border: 1px solid #333333;
+    border-radius: 12px;
+    padding: 25px 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.account {
+    display: none;
+}
+
+.balance {
+    background: #ffffff;
+    color: #111111;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: #151515;
+    border-top: 1px solid #333333;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">292<span>Bet</span></div>
+</div>
+
+
+<div id="loginPage" class="container">
+
+    <div class="card">
+
+        <div class="title">
+            লগইন
+        </div>
+
+        <input
+            class="input"
+            type="email"
+            placeholder="ইমেইল">
+
+        <input
+            class="input"
+            type="password"
+            placeholder="পাসওয়ার্ড">
+
+        <button
+            class="button"
+            onclick="login()">
+            লগইন করুন
+        </button>
+
+        <div
+            class="switch"
+            onclick="showRegister()">
+            নতুন অ্যাকাউন্ট তৈরি করুন
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="registerPage" class="container" style="display:none;">
+
+    <div class="card">
+
+        <div class="title">
+            নিবন্ধন
+        </div>
+
+        <input
+            class="input"
+            type="text"
+            placeholder="আপনার নাম">
+
+        <input
+            class="input"
+            type="email"
+            placeholder="ইমেইল">
+
+        <input
+            class="input"
+            type="password"
+            placeholder="পাসওয়ার্ড">
+
+        <button
+            class="button"
+            onclick="register()">
+            নিবন্ধন করুন
+        </button>
+
+        <div
+            class="switch"
+            onclick="showLogin()">
+            আগে থেকেই অ্যাকাউন্ট আছে
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="homePage" class="home container">
+
+    <div class="banner">
+
+        <h2>স্বাগতম</h2>
+
+        <p>
+            292Bet
+        </p>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <div class="deposit">
+            Deposit
+        </div>
+
+        <div class="withdraw">
+            Withdraw
+        </div>
+
+    </div>
+
+
+    <h2>
+        গেম
+    </h2>
+
+
+    <div class="games">
+
+        <div class="game">
+            🎰<br>
+            Casino
+        </div>
+
+        <div class="game">
+            ⚽<br>
+            Sports
+        </div>
+
+        <div class="game">
+            🃏<br>
+            Cards
+        </div>
+
+        <div class="game">
+            🎲<br>
+            Games
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="accountPage" class="account container">
+
+    <div class="card">
+
+        <div class="title">
+            আমার অ্যাকাউন্ট
+        </div>
+
+        <p>
+            ব্যবহারকারী
+        </p>
+
+        <div class="balance">
+            ৳ 0.00
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="navBar" class="nav" style="display:none;">
+
+    <button onclick="showHome()">
+        🏠<br>
+        হোম
+    </button>
+
+    <button onclick="showAccount()">
+        👤<br>
+        অ্যাকাউন্ট
+    </button>
+
+</div>
+
+
+<script>
+
+function showRegister() {
+
+    document.getElementById("loginPage").style.display = "none";
+
+    document.getElementById("registerPage").style.display = "block";
+}
+
+
+function showLogin() {
+
+    document.getElementById("registerPage").style.display = "none";
+
+    document.getElementById("loginPage").style.display = "block";
+}
+
+
+function login() {
+
+    document.getElementById("loginPage").style.display = "none";
+
+    document.getElementById("homePage").style.display = "block";
+
+    document.getElementById("navBar").style.display = "flex";
+}
+
+
+function register() {
+
+    document.getElementById("registerPage").style.display = "none";
+
+    document.getElementById("homePage").style.display = "block";
+
+    document.getElementById("navBar").style.display = "flex";
+}
+
+
+function showHome() {
+
+    document.getElementById("homePage").style.display = "block";
+
+    document.getElementById("accountPage").style.display = "none";
+}
+
+
+function showAccount() {
+
+    document.getElementById("homePage").style.display = "none";
+
+    document.getElementById("accountPage").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
