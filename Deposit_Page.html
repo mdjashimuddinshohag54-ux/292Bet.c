@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ডিপোজিট</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#f4f4f4;color:#222;font-family:"Noto Sans Bengali","Noto Sans",Arial,sans-serif}
+body{min-height:100vh}.app{max-width:720px;margin:auto;background:#fff;min-height:100vh;box-shadow:0 0 18px #0001}
+.top{height:74px;background:#050505;color:#fff;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:5}
+.back{position:absolute;left:22px;font-size:38px;font-weight:200;line-height:1}.title{font-size:23px;font-weight:700}
+.section{padding:18px 20px 0}.heading{font-size:22px;font-weight:800;margin:0 0 16px}.heading:before{content:"•";margin-right:8px;color:#f2a500}
+.methods,.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.methods{grid-template-columns:repeat(3,1fr)}
+.card{background:#fff;border:1px solid #e2e2e2;border-radius:10px;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:17px;cursor:pointer;position:relative;box-shadow:0 1px 4px #0000000b}
+.card.active{border:2px solid #e44b4b}.card.active:after{content:"✓";position:absolute;right:0;bottom:0;background:#e94b4b;color:#fff;border-radius:13px 0 8px 0;padding:3px 8px;font-size:17px}
+.logo{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:12px;color:#fff}
+.nagad{background:linear-gradient(135deg,#ef7b22,#d71920)}.bkash{background:linear-gradient(135deg,#ef2b86,#b5005e)}
+.rocket{background:#7c2690}.usdt{background:#25a77f}
+.smallnote{font-size:20px;line-height:1.65;color:#e44545;margin:14px 0 20px;font-weight:600}
+.channel-grid{grid-template-columns:repeat(2,1fr)}.channel{min-height:72px;font-size:18px}
+.amounts{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.amt{min-height:64px;border:1px solid #f0d9df;border-radius:10px;background:#fff;font-size:18px;font-weight:800;display:grid;place-items:center;cursor:pointer}.amt.active{border:2px solid #e34a4a;color:#e34a4a}
+.input{width:100%;height:58px;border:1px solid #ddd;border-radius:10px;padding:0 18px;font-size:20px;outline:none;background:#fff}.input:focus{border-color:#e34a4a}
+.amount-row{position:relative;margin-top:12px}.currency{position:absolute;left:15px;top:15px;font-size:22px;font-weight:800;color:#555}.amount-input{padding-left:45px}
+.next{width:100%;height:64px;border:0;border-radius:0;background:#ccc;color:#fff;font-size:24px;font-weight:800;margin-top:24px;cursor:pointer}.next.enabled{background:#ef4b49}
+.help{padding-bottom:22px}.hidden{display:none!important}
+.paybox{margin:10px 20px 0;background:#fff}.payhead{background:#ef4b49;color:#fff;border-radius:8px;padding:18px 20px;font-size:23px;font-weight:900;display:flex;align-items:center;gap:15px}.walletlabel{font-size:22px;font-weight:900;margin-top:18px}.walletinfo{font-size:18px;line-height:1.6;margin:6px 0 10px}.wallet{background:#f4f5f8;border-radius:10px;padding:18px;text-align:center;font-size:28px;font-weight:900;letter-spacing:1px;display:flex;justify-content:center;align-items:center;gap:12px}.copy{border:0;background:transparent;color:#16816a;font-size:26px;cursor:pointer}
+.trx-label{font-size:21px;font-weight:900;margin:20px 0 8px}.required{color:#ef3e3e}.confirm{width:220px;height:58px;border:1px solid #777;background:#fff;border-radius:12px;font-size:23px;font-weight:800;display:block;margin:20px auto;cursor:pointer}.confirm:disabled{opacity:.5}
+.expiry{font-size:18px;font-weight:800}.expiry b{color:#ef4b49}.warning{font-size:18px;line-height:1.7;font-weight:700;margin:14px 0;color:#ef3d3d}.success{margin:20px;padding:18px;border-radius:10px;background:#e9f8ef;color:#167343;font-size:19px;font-weight:800;text-align:center}
+.member-note{font-size:14px;color:#888;text-align:center;padding:0 20px 15px}
+@media(max-width:520px){.section{padding-left:18px;padding-right:18px}.methods{grid-template-columns:repeat(2,1fr)}.methods .card:last-child{display:none}.amounts{grid-template-columns:repeat(3,1fr)}.card{min-height:115px}.smallnote{font-size:18px}.wallet{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><button class="back" onclick="goBack()" aria-label="back">‹</button><div class="title">জমা দিন</div></header>
+
+  <main id="chooseView">
+    <section class="section">
+      <h2 class="heading">আমানতের মোড</h2>
+      <div class="methods">
+        <button class="card active" data-method="Nagad" onclick="selectMethod('Nagad')"><span class="logo nagad">নগদ</span>NAGAD</button>
+        <button class="card" data-method="bKash" onclick="selectMethod('bKash')"><span class="logo bkash">bKash</span>Bkash</button>
+        <button class="card" data-method="Rocket" onclick="selectMethod('Rocket')"><span class="logo rocket">ROCKET</span>ROCKET</button>
+      </div>
+      <p class="smallnote">অনুগ্রহ করে আপনার <span id="methodBangla">Nagad</span> একাউন্টের মাধ্যমে অর্থ স্থানান্তর করুন এবং পেমেন্ট পাঠায় (TRX ID) অনুলিপি করে সঠিকভাবে পূরণ করুন। ⚠️ ⚠️ ⚠️ যদি আপনি (TRX ID) না লিখেন বা ভুল লিখেন, তাহলে আপনার লেনদেন সফলভাবে সম্পন্ন হবে না।</p>
+    </section>
+
+    <section class="section">
+      <h2 class="heading" style="color:#333">পেমেন্ট চ্যানেল</h2>
+      <div id="channels" class="channels channel-grid"></div>
+      <p class="smallnote">অনুগ্রহ করে আপনার <span id="methodBangla2">Nagad</span> একাউন্টের মাধ্যমে অর্থ স্থানান্তর করুন এবং পেমেন্ট পাঠায় (TRX ID) অনুলিপি করে সঠিকভাবে পূরণ করুন। ⚠️ ⚠️ ⚠️ যদি আপনি (TRX ID) না লিখেন বা ভুল লিখেন, তাহলে আপনার লেনদেন সফলভাবে সম্পন্ন হবে না।</p>
+    </section>
+
+    <section class="section">
+      <h2 class="heading" style="color:#333">জমা পরিমাণ</h2>
+      <div class="amounts" id="amounts">
+        <button class="amt" onclick="setAmount(100)">100</button><button class="amt" onclick="setAmount(200)">200</button>
+        <button class="amt" onclick="setAmount(300)">300</button><button class="amt" onclick="setAmount(500)">500</button>
+        <button class="amt" onclick="setAmount(1000)">1,000</button><button class="amt" onclick="setAmount(3000)">3,000</button>
+        <button class="amt" onclick="setAmount(5000)">5,000</button><button class="amt" onclick="setAmount(10000)">10,000</button>
+        <button class="amt" onclick="setAmount(20000)">20,000</button><button class="amt" onclick="setAmount(30000)">30,000</button>
+        <button class="amt" onclick="setAmount(50000)">50,000</button>
+      </div>
+      <div class="amount-row"><span class="currency">৳</span><input id="amountInput" class="input amount-input" inputmode="numeric" placeholder="100 - 50,000" oninput="customAmount(this.value)"></div>
+      <button id="nextBtn" class="next" disabled onclick="continueToPay()">পরবর্তী</button>
+    </section>
+  </main>
+
+  <main id="payView" class="hidden">
+    <div class="paybox">
+      <div class="payhead"><span class="logo" id="payLogo">নগদ</span><span id="payTitle">NAGAD Deposit</span></div>
+      <div class="walletlabel">Wallet No*</div>
+      <div class="walletinfo">এই <span id="payMethodText">NAGAD</span> নাম্বারে শুধুমাত্র ক্যাশ/সেন্ড মানি গ্রহণ করা হয়</div>
+      <div class="wallet"><span id="walletNumber"></span><button class="copy" onclick="copyWallet()">▣</button></div>
+      <div class="trx-label"><span id="trxType">নগদ</span> অ্যাকাউন্টের TrxID নাম্বারটি লিখুন <span class="required">* (প্রয়োজন)</span></div>
+      <input id="trxInput" class="input" placeholder="TrxID অবশ্যই পূরণ করতে হবে!" autocomplete="off">
+      <div class="expiry">মেয়াদ শেষ: <b id="expiry"></b></div>
+      <button id="confirmBtn" class="confirm" onclick="submitDeposit()">নিশ্চিত</button>
+      <div class="warning">সতর্কতাঃ লেনদেন আইডি সঠিকভাবে পূরণ করতে হবে, অন্যথায় স্কোর/ক্রেডিট ব্যর্থ হবে!</div>
+    </div>
+    <div id="success" class="success hidden"></div>
+    <div class="member-note">ডিপোজিটটি অ্যাডমিন অনুমোদনের পর সদস্যের ব্যালেন্সে যোগ হবে।</div>
+  </main>
+</div>
+
+<script>
+const KEY='depositAppData_v1';
+const config={
+  Nagad:[
+    {name:'Nagad 1st send money',wallet:'01684490377'},
+    {name:'Nagad 74 send money',wallet:'01639467998'}
+  ],
+  bKash:[
+    {name:'Bkash 1 send money',wallet:'01684490377'},
+    {name:'Bkash 24 send money',wallet:'01819105760'}
+  ]
+};
+let state={method:'Nagad',channel:0,amount:null};
+const qs=new URLSearchParams(location.search);
+const memberId=qs.get('member') || localStorage.getItem('currentMemberId') || 'demo-player';
+localStorage.setItem('currentMemberId',memberId);
+
+function getData(){try{return JSON.parse(localStorage.getItem(KEY))||{deposits:[],balances:{}}}catch(e){return {deposits:[],balances:{}}}}
+function selectMethod(m){
+  if(!config[m]) return;
+  state.method=m; state.channel=0; renderChannels();
+  document.querySelectorAll('.methods .card').forEach(x=>x.classList.toggle('active',x.dataset.method===m));
+  document.getElementById('methodBangla').textContent=m==='bKash'?'bKash':'Nagad';
+  document.getElementById('methodBangla2').textContent=m==='bKash'?'bKash':'Nagad';
+}
+function renderChannels(){
+  const el=document.getElementById('channels');
+  el.innerHTML=config[state.method].map((c,i)=>`<button class="card channel ${i===0?'active':''}" onclick="selectChannel(${i})">${c.name}</button>`).join('');
+}
+function selectChannel(i){state.channel=i;document.querySelectorAll('#channels .card').forEach((x,n)=>x.classList.toggle('active',n===i));validate()}
+function setAmount(n){document.getElementById('amountInput').value=n.toLocaleString('en-US');document.querySelectorAll('.amt').forEach(b=>b.classList.toggle('active',parseInt(b.textContent.replace(/,/g,''))===n));state.amount=n;validate()}
+function customAmount(v){const n=parseInt(String(v).replace(/,/g,''),10);state.amount=Number.isFinite(n)?n:null;document.querySelectorAll('.amt').forEach(b=>b.classList.remove('active'));validate()}
+function validate(){const ok=state.channel!==null && Number.isInteger(state.amount)&&state.amount>=100&&state.amount<=50000;const btn=document.getElementById('nextBtn');btn.disabled=!ok;btn.classList.toggle('enabled',ok)}
+function continueToPay(){
+  if(document.getElementById('nextBtn').disabled)return;
+  const c=config[state.method][state.channel];
+  document.getElementById('chooseView').classList.add('hidden');
+  document.getElementById('payView').classList.remove('hidden');
+  document.getElementById('walletNumber').textContent=c.wallet;
+  document.getElementById('payTitle').textContent=(state.method==='bKash'?'BKASH':'NAGAD')+' Deposit';
+  document.getElementById('payMethodText').textContent=state.method==='bKash'?'BKASH':'NAGAD';
+  document.getElementById('trxType').textContent=state.method==='bKash'?'বিকাশ':'নগদ';
+  document.getElementById('payLogo').className='logo '+(state.method==='bKash'?'bkash':'nagad');
+  document.getElementById('payLogo').textContent=state.method==='bKash'?'bKash':'নগদ';
+  const d=new Date(Date.now()+10*60*1000);
+  document.getElementById('expiry').textContent=d.toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+function copyWallet(){navigator.clipboard?.writeText(document.getElementById('walletNumber').textContent);alert('ওয়ালেট নাম্বার কপি হয়েছে।')}
+function submitDeposit(){
+  const trx=document.getElementById('trxInput').value.trim();
+  if(!trx){alert('TrxID অবশ্যই পূরণ করতে হবে!');return}
+  const c=config[state.method][state.channel], data=getData();
+  const duplicate=data.deposits.some(d=>d.txid.toLowerCase()===trx.toLowerCase());
+  if(duplicate){alert('এই TrxID ইতিমধ্যে ব্যবহার করা হয়েছে।');return}
+  const dep={id:'DEP-'+Date.now().toString(36).toUpperCase(),memberId,method:state.method,channel:c.name,wallet:c.wallet,amount:state.amount,txid:trx,status:'pending',createdAt:new Date().toISOString()};
+  data.deposits.unshift(dep);localStorage.setItem(KEY,JSON.stringify(data));
+  document.getElementById('confirmBtn').disabled=true;
+  const s=document.getElementById('success');s.classList.remove('hidden');s.textContent='আপনার ডিপোজিট রিকোয়েস্ট গ্রহণ করা হয়েছে। অ্যাডমিন অনুমোদনের পর ব্যালেন্সে যোগ হবে।';
+}
+function goBack(){if(!document.getElementById('payView').classList.contains('hidden')){document.getElementById('payView').classList.add('hidden');document.getElementById('chooseView').classList.remove('hidden');}else history.back()}
+renderChannels();setAmount(100);
+</script>
+</body></html>
